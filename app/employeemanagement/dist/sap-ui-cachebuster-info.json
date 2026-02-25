@@ -1,0 +1,22 @@
+{
+  "manifest.json": 1771916938874,
+  "controller/employee.controller.js": 1771923059768,
+  "model/models.js": 1771916917838,
+  "controller/App.controller.js": 1771916917854,
+  "i18n/i18n.properties": 1771916938874,
+  "Component.js": 1771916917834,
+  "Component-dbg.js": 1771916917834,
+  "Component.js.map": 1771923092605,
+  "model/models-dbg.js": 1771916917838,
+  "model/models.js.map": 1771923092592,
+  "controller/App-dbg.controller.js": 1771916917854,
+  "controller/App.controller.js.map": 1771923092592,
+  "controller/employee-dbg.controller.js": 1771923059768,
+  "controller/employee.controller.js.map": 1771923092601,
+  "Component-preload.js": 1771923092685,
+  "Component-preload.js.map": 1771923092685,
+  "view/employee.view.xml": 1771919724463,
+  "view/App.view.xml": 1771916917858,
+  "css/style.css": 1771916917858,
+  "index.html": 1771916917834
+}

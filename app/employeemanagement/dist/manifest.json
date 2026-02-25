@@ -1,0 +1,144 @@
+{
+	"_version": "1.82.0",
+	"sap.app": {
+		"id": "employeemanagement",
+		"type": "application",
+		"i18n": {
+			"bundleUrl": "i18n/i18n.properties",
+			"supportedLocales": [
+				""
+			]
+		},
+		"applicationVersion": {
+			"version": "0.0.1"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"resources": "resources.json",
+		"sourceTemplate": {
+			"id": "@sap/generator-fiori:basic",
+			"version": "1.20.3",
+			"toolsId": "ea46794a-02c7-4e47-8389-0280ad0625e3"
+		},
+		"dataSources": {
+			"mainService": {
+				"uri": "/odata/v4/employee/",
+				"type": "OData",
+				"settings": {
+					"annotations": [],
+					"odataVersion": "4.01"
+				}
+			}
+		},
+		"crossNavigation": {
+			"inbounds": {
+				"employeemanagementsystem-show": {
+					"semanticObject": "employeemanagementsystem",
+					"action": "show",
+					"title": "{{employeemanagementsystem-show.flpTitle}}",
+					"subTitle": "{{employeemanagementsystem-show.flpSubtitle}}",
+					"signature": {
+						"parameters": {},
+						"additionalParameters": "allowed"
+					}
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+	"sap.ui5": {
+		"flexEnabled": true,
+		"dependencies": {
+			"minUI5Version": "1.145.0",
+			"libs": {
+				"sap.m": {},
+				"sap.ui.core": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "employeemanagement.i18n.i18n",
+					"supportedLocales": [
+						""
+					]
+				}
+			},
+			"": {
+				"dataSource": "mainService",
+				"preload": true,
+				"settings": {
+					"operationMode": "Server",
+					"autoExpandSelect": true,
+					"earlyRequests": true
+				}
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"controlAggregation": "pages",
+				"controlId": "app",
+				"transition": "slide",
+				"type": "View",
+				"viewType": "XML",
+				"path": "employeemanagement.view",
+				"async": true,
+				"viewPath": "employeemanagement.view"
+			},
+			"routes": [
+				{
+					"name": "Routeemployee",
+					"pattern": ":?query:",
+					"target": [
+						"Targetemployee"
+					]
+				}
+			],
+			"targets": {
+				"Targetemployee": {
+					"id": "employee",
+					"name": "employee"
+				}
+			}
+		},
+		"rootView": {
+			"viewName": "employeemanagement.view.App",
+			"type": "XML",
+			"id": "App",
+			"async": true
+		},
+		"flexBundle": false
+	},
+	"sap.cloud": {
+		"public": true,
+		"service": "employeemanagement"
+	}
+}

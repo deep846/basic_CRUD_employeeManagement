@@ -1,0 +1,143 @@
+_schema-version: 3.3.0
+ID: empmanagement
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: empmanagement-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: uaa_empmanagement
+  - name: empmanagement-db
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    instances: 1
+  build-parameters:
+    builder: npm-ci
+- name: empmanagement-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: empmanagement-destination-service
+    parameters:
+      content-target: true
+  - name: empmanagement_html_repo_host
+    parameters:
+      service-key:
+        name: empmanagement_html_repo_host-key
+  - name: uaa_empmanagement
+    parameters:
+      service-key:
+        name: uaa_empmanagement-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: employeemanagement_empmanagement_html_repo_host
+          ServiceInstanceName: empmanagement-html5-app-host-service
+          ServiceKeyName: empmanagement_html_repo_host-key
+          sap.cloud.service: employeemanagement
+        - Authentication: OAuth2UserTokenExchange
+          Name: employeemanagement_uaa_empmanagement
+          ServiceInstanceName: empmanagement-xsuaa-service
+          ServiceKeyName: uaa_empmanagement-key
+          sap.cloud.service: employeemanagement
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: empmanagement-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: empmanagement_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - employeemanagement.zip
+      name: employeemanagement
+      target-path: resources/
+- name: employeemanagement
+  type: html5
+  path: app/employeemanagement
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: empmanagement-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: empmanagement-db
+  parameters:
+    buildpack: nodejs_buildpack
+resources:
+- name: empmanagement-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: empmanagement-destination-service
+    service-plan: lite
+  requires:
+  - name: srv-api
+- name: empmanagement_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: empmanagement-html5-app-host-service
+    service-plan: app-host
+- name: uaa_empmanagement
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      oauth2-configuration:
+        credential-types:
+        - binding-secret
+        - x509
+      tenant-mode: dedicated
+      xsappname: empmanagement-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: empmanagement-xsuaa-service
+    service-plan: application
+- name: empmanagement-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production

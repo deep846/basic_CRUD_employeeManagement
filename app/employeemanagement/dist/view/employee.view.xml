@@ -1,0 +1,83 @@
+<mvc:View controllerName="employeemanagement.controller.employee"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Table
+                id="productsTable"
+                items="{
+        path: '/Employee'
+    }"
+            >
+                <columns>
+                    <Column id="_IDGenColumn1">
+                        <Text id="_IDGenText" text="ID" />
+                    </Column>
+                    <Column id="_IDGenColumn2">
+                        <Text id="_IDGenText1" text="Name" />
+                    </Column>
+                    <Column id="_IDGenColumn3">
+                        <Text id="_IDGenText2" text="age" />
+                    </Column>
+                    <Column id="_IDGenColumn4">
+                        <Text id="_IDGenText3" text="Department" />
+                    </Column>
+                    <Column id="_IDGenColumn5">
+                        <Text id="_IDGenText4" text="Action" />
+                    </Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem id="_IDGenColumnListItem">
+                        <cells>
+                            <Text id="_IDGenText5" text="{ID}" />
+                            <Text id="_IDGenText6" text="{Name}" />
+                            <Text id="_IDGenText7" text="{age}" />
+                            <Text id="_IDGenText8" text="{Department}" />
+
+                            <!-- DELETE BUTTON PER ROW -->
+
+                            <VBox id="_IDGenVBox">
+                                <Button id="_IDGenButton"
+                                    text="Delete"
+                                    type="Reject"
+                                    press="onDeleteRow"
+                                />
+                                <Button id="_IDGenButton1"
+                                    text="Edit"
+                                    type="Accept"
+                                    press="onEditRow"
+                                />
+                            </VBox>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            <VBox id="_IDGenVBox1" class="sapUiSmallMarginTop">
+                <Input
+                    id="idInput"
+                    placeholder="ID"
+                />
+                <Input
+                    id="nameInput"
+                    placeholder="Name"
+                />
+                <Input
+                    id="ageInput"
+                    placeholder="age"
+                />
+                <Input
+                    id="DepartmentInput"
+                    placeholder="Department"
+                />
+
+                <Button id="_IDGenButton2"
+                    text="Create Product"
+                    type="Accept"
+                    press="onCreateRow"
+                    class="sapUiSmallMarginTop"
+                />
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
