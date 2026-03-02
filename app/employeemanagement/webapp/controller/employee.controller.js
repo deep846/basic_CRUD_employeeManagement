@@ -54,18 +54,36 @@ sap.ui.define([
             }
 
             const oModel = this.getView().getModel();
-            const res = oModel.bindList("/Employee").create(oNewEntry);
+            const sGroupId = "$auto";
+            // const res = oModel.bindList("/Employee").create(oNewEntry);
 
             try {
-                await res.created();
-                console.log("data added successfully")
-                this.byId('idInput').setValue("");
-                this.byId('nameInput').setValue("");
-                this.byId('ageInput').setValue("");
-                this.byId('DepartmentInput').setValue("");
+                const oList = oModel.bindList("/Employee", null, null, null, { $$updateGroupId: sGroupId });
+                const res = oList.create(oNewEntry);
+                res.created();
+                await oModel.submitBatch(sGroupId);
+                console.log("data added successfully");
+                this.byId("idInput").setValue("");
+                this.byId("nameInput").setValue("");
+                this.byId("ageInput").setValue("");
+                this.byId("DepartmentInput").setValue("");
             } catch (err) {
-                console.log("error")
+                console.log("ERROR in create:", err);
+                console.log("responseText:", err?.responseText);
             }
+
+
+
+            // try {
+            //     await res.created();
+            //     console.log("data added successfully")
+            //     this.byId('idInput').setValue("");
+            //     this.byId('nameInput').setValue("");
+            //     this.byId('ageInput').setValue("");
+            //     this.byId('DepartmentInput').setValue("");
+            // } catch (err) {
+            //     console.log("error")
+            // }
 
             oModel.refresh();
 

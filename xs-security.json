@@ -1,21 +1,31 @@
 {
-  "xsappname": "empmanagement",
-  "tenant-mode": "dedicated",
-  "description": "Security profile of called application",
   "scopes": [
     {
-      "name": "uaa.user",
-      "description": "UAA"
+      "name": "$XSAPPNAME.manager",
+      "description": "manager"
+    },
+    {
+      "name": "$XSAPPNAME.user",
+      "description": "user"
     }
   ],
+  "attributes": [],
   "role-templates": [
     {
-      "name": "Token_Exchange",
-      "description": "UAA",
+      "name": "manager",
+      "description": "generated",
       "scope-references": [
-        "uaa.user"
-      ]
+        "$XSAPPNAME.manager"
+      ],
+      "attribute-references": []
+    },
+    {
+      "name": "user",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.user"
+      ],
+      "attribute-references": []
     }
-  ],
-  "attributes": []
+  ]
 }
