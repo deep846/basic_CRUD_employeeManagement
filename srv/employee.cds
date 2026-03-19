@@ -1,4 +1,5 @@
 using {deep.emp as emp} from '../db/employeeSchema';
+using {student as s} from './external/student';
 
 service employeeService {
 
@@ -14,5 +15,6 @@ service employeeService {
     ]
 
 entity Employee as projection on emp.Employee;    
+entity studentss as projection on s.student;
 
 }

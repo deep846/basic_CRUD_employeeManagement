@@ -1,0 +1,27 @@
+{
+ "meta": {
+  "creator": "cds-dk 9.6.1"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "student.student": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.Integer",
+     "notNull": true
+    },
+    "name": {
+     "type": "cds.String"
+    }
+   }
+  },
+  "student": {
+   "kind": "service",
+   "@cds.external": true
+  }
+ }
+}
